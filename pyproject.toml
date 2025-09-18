@@ -1,0 +1,19 @@
+[project]
+name = "omni"
+version = "0.1.0"
+description = "The Daily News Reporting Tool"
+authors = [
+    { name = "Navaneethan Ghanti", email = "navaneethan.ghanti@gmail.com" }
+]
+readme = "readme.md"
+requires-python = ">=3.8"
+dependencies = ["requests",
+                "beautifulsoup4",
+                "google-generativeai",
+                "pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+omni = "omni.__main__:main"

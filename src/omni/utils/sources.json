@@ -1,0 +1,16 @@
+{
+  "general_websites": [
+    "toi.com",
+    "firstpost.com",
+    "ndtv.com",
+    "hindustantimes.com",
+    "news18.com"
+  ],
+  "financial_websites": [
+    "moneycontrol.com",
+    "economictimes.indiatimes.com",
+    "livemint.com",
+    "business-standard.com",
+    "financialexpress.com"
+  ]
+}
