@@ -1,7 +1,6 @@
 from omni.core.crawler import GoogleNewsCrawler
 from omni.core.classifier import GeminiClient
 from omni.io.mailer import Mailer
-import logging
 
 class OmniNewsService:
     def __init__(self, search: str, time_period: str, financial: bool, recipient: str):
@@ -15,7 +14,7 @@ class OmniNewsService:
         self.mailer = Mailer()
 
     def run(self):
-        # Step 1: Crawl news
+   
         articles = self.crawler.run(search=self.search,
                                     time_period=self.time_period,
                                     financial_flag=self.financial)
@@ -42,7 +41,8 @@ class OmniNewsService:
         else:
             prompt = self.gemini._general_news_prompt(text=articles_text)
 
-        response = self.gemini.model.generate_content(prompt)
+        response = self.gemini.client.models.generate_content(model=self.gemini.model_name,
+                                                              contents=prompt)
         summary = response.text if hasattr(response, 'text') else str(response)
 
         # Step 3: Prepare email body

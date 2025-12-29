@@ -9,7 +9,7 @@ readme = "readme.md"
 requires-python = ">=3.8"
 dependencies = ["requests",
                 "beautifulsoup4",
-                "google-generativeai",
+                "google-genai",
                 "pytest"]
 
 [tool.setuptools.packages.find]

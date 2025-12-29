@@ -4,18 +4,17 @@ import logging
 os.environ["GRPC_VERBOSITY"] = "NONE"
 os.environ["GLOG_minloglevel"] = "2"
 
-import google.generativeai as genai
-
+from google import genai
 
 class GeminiClient:
-    def __init__(self, model_name: str = "gemini-1.5-flash"):
+    def __init__(self, model_name: str = "gemini-2.5-flash"):
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise ValueError("Please set GEMINI_API_KEY environment variable")
 
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel(model_name)
-        
+        self.client = genai.Client(api_key=api_key)
+        self.model_name = model_name
+
     def _finance_news_prompt(self, text: str) -> str:
         '''
         Builds a structured prompt for summarizing general or financial news.
@@ -41,7 +40,7 @@ class GeminiClient:
                 ### Output Requirements
                 - Do not add explanations outside the required format.
                 - Keep bullet points short and fact-focused.
-                - Ensure there are **exactly 15 points** (no more, no less).
+                - Ensure there are **exactly 20 points** (no more, no less).
                 - Use plain text only (no markdown beyond what is shown).
                 - If information is missing, state "Not Mentioned" instead of inventing content.
 
@@ -112,7 +111,8 @@ class GeminiClient:
         prompt = self._finance_news_prompt(text) if financial else self._general_news_prompt(text)
 
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(model=self.model_name,
+                                                           contents=prompt)
             category = response.text.strip()
             return category
         except Exception as e:
